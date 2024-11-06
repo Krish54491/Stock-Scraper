@@ -1,0 +1,17 @@
+{
+  "name": "scraper",
+  "version": "1.0.0",
+  "description": "webscraper",
+  "main": "scraper-javascript.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "scraper"
+  ],
+  "author": "Krish Bharal",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}
