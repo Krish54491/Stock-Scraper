@@ -1,4 +1,14 @@
 const cheerio = require('cheerio');
+/*const axios = require('axios');
+
+// Schwab API configuration
+const apiBaseUrl = 'https://api.schwab.com/v1/accounts';
+const apiKey = 'tiwXVrOPAB2XlRSHIrRpTAE8qVVNOnKU';
+const accountId = '75087051';
+const token = '';
+*/
+
+
 
 (async () => {
   const url = 'https://www.tipranks.com/calendars/stock-splits/upcoming';
