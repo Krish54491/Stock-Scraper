@@ -1,14 +1,37 @@
 const cheerio = require('cheerio');
-/*const axios = require('axios');
+const Alpaca = require('@alpacahq/alpaca-trade-api');
 
-// Schwab API configuration
-const apiBaseUrl = 'https://api.schwab.com/v1/accounts';
-const apiKey = 'tiwXVrOPAB2XlRSHIrRpTAE8qVVNOnKU';
-const accountId = '75087051';
-const token = '';
-*/
-
-
+const API_KEY = 'Api key';
+const API_SECRET = 'secret api key';
+const PAPER = true;
+const alpaca = new Alpaca({
+  keyId: API_KEY,
+  secretKey: API_SECRET,
+  paper: PAPER // Set to false for live trading
+});
+async function buyStock(symbol, quantity) {
+  try {
+    const order = await alpaca.createOrder({
+      symbol: symbol,
+      qty: quantity,
+      side: 'buy',
+      type: 'market',
+      time_in_force: 'gtc'
+    });
+    console.log('Order placed:', order);
+  } catch (error) {
+    console.error('Error placing order:', error);
+  }
+}
+function convertDate(dateStr) {
+  const months = {
+    Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
+    Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12
+  };
+  
+  const [month, day, year] = dateStr.replace(',', '').split(' ');
+  return `${year}/${months[month]}/${parseInt(day)}`;
+}
 
 (async () => {
   const url = 'https://www.tipranks.com/calendars/stock-splits/upcoming';
@@ -45,6 +68,12 @@ const token = '';
   $('tbody.rt-tbody').find('tr.rt-tr').each((index, element) => {
     const date = $(element).find('td span').first().text();  // Extract the first span in each row which holds the date
     if (date && reverseStocks.includes(count)) {
+      let yourDate = new Date()
+      const offset = yourDate.getTimezoneOffset()
+      yourDate = new Date(yourDate.getTime() - (offset*60*1000))
+      if(convertDate(date) != yourDate.toISOString().split('T')[0]){
+        buyStock(stocks[i], 1);
+      }
       console.log(date);
       console.log(stocks[i]);
       console.log(links[i]);
@@ -52,5 +81,6 @@ const token = '';
     }
     count++;
   });
+
+  
 })();
-// Have to implement auto checking of rounding up
