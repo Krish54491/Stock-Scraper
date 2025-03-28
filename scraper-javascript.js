@@ -1,9 +1,9 @@
 const cheerio = require('cheerio');
 const Alpaca = require('@alpacahq/alpaca-trade-api');
-
-const API_KEY = 'Api key';
-const API_SECRET = 'secret api key';
-const PAPER = true;
+const { apiKey, apiSecret } = require('./ApiKey/Api.js');
+const API_KEY = apiKey;
+const API_SECRET = apiSecret;
+const PAPER = true; // for real trading set to false
 const alpaca = new Alpaca({
   keyId: API_KEY,
   secretKey: API_SECRET,
